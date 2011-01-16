@@ -24,7 +24,7 @@ describe Guard::Test::Runner do
 
         subject.should_receive(:system).with(
           "ruby -rubygems -r#{@lib_path.join('guard/test/runners/default_test_unit_runner')} -Itest " \
-          "/spork-testunit/bin/testdrb test/succeeding_test.rb test/unit/user_test.rb"
+          "/spork-testunit/bin/testdrb ./test/succeeding_test.rb ./test/unit/user_test.rb"
         )
         subject.run(["test/succeeding_test.rb", "test/unit/user_test.rb"])
       end
