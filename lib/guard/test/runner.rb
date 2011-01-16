@@ -29,7 +29,7 @@ module Guard
 
           if Gem.available?('spork-testunit') && Gem.available?('guard-spork')
             cmd_parts << Gem.bin_path('spork-testunit')
-            cmd_parts << files.join(' ')
+            cmd_parts << files.map { |e| "./#{e}" }.join(' ')
           else
             cmd_parts << "-e \"%w[#{files.join(' ')}].each { |f| load f }\""
             cmd_parts << files.map { |f| "\"#{f}\"" }.join(' ')
