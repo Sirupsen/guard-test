@@ -17,6 +17,17 @@ describe Guard::Test::Runner do
         )
         dev_null { subject.run(["test/succeeding_test.rb"]) }
       end
+
+      it "should run over spork if possible" do
+        Gem.should_receive(:available?).any_number_of_times { true }
+        Gem.should_receive(:bin_path).with('spork-testunit') { '/spork-testunit/bin/testdrb' }
+
+        subject.should_receive(:system).with(
+          "ruby -rubygems -r#{@lib_path.join('guard/test/runners/default_test_unit_runner')} -Itest " \
+          "/spork-testunit/bin/testdrb test/succeeding_test.rb test/unit/user_test.rb"
+        )
+        subject.run(["test/succeeding_test.rb", "test/unit/user_test.rb"])
+      end
       
       context "when specifying the rvm option" do
         before(:each) { @options = { :rvm => ['1.8.7', '1.9.2'] } }
